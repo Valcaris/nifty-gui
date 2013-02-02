@@ -39,7 +39,7 @@ public class Screen {
   private ArrayList < Element > layerElements = new ArrayList < Element >();
   private LinkedList < Element > layerElementsToAdd = new LinkedList < Element >();
   private LinkedList < Element > layerElementsToRemove = new LinkedList < Element >();
-  
+
   /**
    * Popup layers are dynamic layers on top of the normal layers.
    * They are treated as "normal" layers and are added to the layerElements variable. In the
@@ -48,8 +48,8 @@ public class Screen {
    */
   private ArrayList < Element > popupElements = new ArrayList < Element >();
   private LinkedList < Element > popupElementsToAdd = new LinkedList < Element >();
-  private LinkedList<ElementWithEndNotify> popupElementsToRemove = new LinkedList < ElementWithEndNotify >(); 
-  
+  private LinkedList<ElementWithEndNotify> popupElementsToRemove = new LinkedList < ElementWithEndNotify >();
+
   private TimeProvider timeProvider;
   private FocusHandler focusHandler;
   private MouseOverHandler mouseOverHandler;
@@ -371,13 +371,27 @@ public class Screen {
 
   /**
    * find an element by name.
+   * this method is deprecated, use findElementById() instead
+   *
    * @param name the id to find
    * @return the element or null
+   *
+   * @see Screen#findElementById(java.lang.String)
    */
+  @Deprecated
   public Element findElementByName(final String name) {
+      return findElementById(name);
+  }
+
+  /**
+   * find an element by id.
+   * @param findId the id to find
+   * @return the element or null
+   */
+  public Element findElementById(final String findId) {
     for (int i=0; i<layerElements.size(); i++) {
       Element layer = layerElements.get(i);
-      Element found = layer.findElementByName(name);
+      Element found = layer.findElementById(findId);
       if (found != null) {
         return found;
       }
@@ -386,7 +400,7 @@ public class Screen {
   }
 
   public < T extends Controller > T findControl(final String elementName, final Class < T > requestedControlClass) {
-    Element element = findElementByName(elementName);
+    Element element = findElementById(elementName);
     if (element == null) {
       return null;
     }
@@ -408,7 +422,7 @@ public class Screen {
    * @return Either a NiftyControl or a Null version of a NiftyControl for the matching control class.
    */
   public < T extends NiftyControl > T findNiftyControl(final String elementName, final Class < T > requestedControlClass) {
-    Element element = findElementByName(elementName);
+    Element element = findElementById(elementName);
     if (element == null) {
       log.warning("missing element/control with id [" + elementName + "] for requested control class [" + requestedControlClass.getName() + "]");
       return NullObjectFactory.createNull(requestedControlClass);
@@ -526,7 +540,7 @@ public class Screen {
       Element ww = wwElements.get(i);
       String elementId = getIdText(ww);
       if (elementId.matches(regexpElement)) {
-        result.append("\n" + offset + elementId + " " + ww.getElementType().getClass().getSimpleName() + " childLayout [" + ww.getElementType().getAttributes().get("childLayout") + "]");  
+        result.append("\n" + offset + elementId + " " + ww.getElementType().getClass().getSimpleName() + " childLayout [" + ww.getElementType().getAttributes().get("childLayout") + "]");
         result.append("\n" + StringHelper.whitespace(offset.length()) + ww.getElementStateString(StringHelper.whitespace(offset.length()), regexpAttribute));
         result.append(outputElement(ww, offset + " ", ".*", regexpAttribute));
       } else {
@@ -794,7 +808,7 @@ public class Screen {
 
   /**
    * Checks if the mouse currently hovers any element that is able to handle mouse events.
-   * 
+   *
    * @return true if the mouse hovers an element that is visibleToMouse and
    *         false if the mouse would hit the background and not any element at all
    */
@@ -848,6 +862,6 @@ public class Screen {
     for (Element layer : layerElements) {
       layer.resetMouseDown();
     }
-    
+
   }
 }

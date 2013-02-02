@@ -24,7 +24,7 @@ public class TargetElementResolverTest {
     replay(expected);
 
     Screen screen = createMock(Screen.class);
-    expect(screen.findElementByName("id")).andReturn(expected);
+    expect(screen.findElementById("id")).andReturn(expected);
     replay(screen);
 
     TargetElementResolver resolver = new TargetElementResolver(screen, baseElement);
@@ -37,7 +37,7 @@ public class TargetElementResolverTest {
   @Test
   public void testResolveDirectIdNotFound() {
     Screen screen = createMock(Screen.class);
-    expect(screen.findElementByName("id")).andReturn(null);
+    expect(screen.findElementById("id")).andReturn(null);
     replay(screen);
 
     TargetElementResolver resolver = new TargetElementResolver(screen, baseElement);
@@ -52,7 +52,7 @@ public class TargetElementResolverTest {
     replay(expected);
 
     Element parent = createMock(Element.class);
-    expect(parent.findElementByName("id")).andReturn(expected);
+    expect(parent.findElementById("id")).andReturn(expected);
     replay(parent);
 
     baseElement = createMock(Element.class);
@@ -70,7 +70,7 @@ public class TargetElementResolverTest {
   @Test
   public void testResolveParentWithIdNotFound() {
     Element parent = createMock(Element.class);
-    expect(parent.findElementByName("id")).andReturn(null);
+    expect(parent.findElementById("id")).andReturn(null);
     replay(parent);
 
     baseElement = createMock(Element.class);

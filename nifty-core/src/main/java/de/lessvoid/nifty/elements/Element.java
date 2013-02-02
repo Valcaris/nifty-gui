@@ -517,6 +517,7 @@ public class Element implements NiftyEvent, EffectManager.Notify {
     // this element has a new parent. check the parentClipArea and update this element accordingly.
     if (parentHasClipArea()) {
       setParentClipArea(parentClipX, parentClipY, parentClipWidth, parentClipHeight);
+      notifyListeners();
     } else {
       parentClipArea = false;
     }
@@ -972,7 +973,6 @@ public class Element implements NiftyEvent, EffectManager.Notify {
       Element w = elements.get(i);
       w.setParentClipArea(parentClipX, parentClipY, parentClipWidth, parentClipHeight);
     }
-    notifyListeners();
   }
 
   /**
@@ -1684,26 +1684,40 @@ public class Element implements NiftyEvent, EffectManager.Notify {
 
   /**
    * find an element by name.
+   * this method is deprecated, use findElementById() instead
    *
    * @param name the name of the element (id)
    * @return the element or null
+   *
+   * @see Element#findElementById(java.lang.String)
    */
-  public Element findElementByName(final String name) {
-    if (name == null) {
+  @Deprecated
+  public Element findElementByName(final String id) {
+      return findElementById(id);
+  }
+
+  /**
+   * find an element by id.
+   *
+   * @param id the name of the element (id)
+   * @return the element or null
+   */
+  public Element findElementById(final String findId) {
+    if (findId == null) {
       return null;
     }
 
-    if (id != null && id.equals(name)) {
+    if (id != null && id.equals(findId)) {
       return this;
     }
 
-    if (childIdMatch(name, id)) {
+    if (childIdMatch(findId, id)) {
       return this;
     }
 
     for (int i=0; i<elements.size(); i++) {
       Element e = elements.get(i);
-      Element found = e.findElementByName(name);
+      Element found = e.findElementById(findId);
       if (found != null) {
         return found;
       }
@@ -1777,7 +1791,7 @@ public class Element implements NiftyEvent, EffectManager.Notify {
       }
     }
 
-    focusHandler.addElement(this, screen.findElementByName(focusableInsertBeforeElementId));
+    focusHandler.addElement(this, screen.findElementById(focusableInsertBeforeElementId));
   }
 
   private Element resolvePopupParentElement() {
@@ -2112,7 +2126,7 @@ public class Element implements NiftyEvent, EffectManager.Notify {
   }
 
   public < T extends Controller > T findControl(final String elementName, final Class < T > requestedControlClass) {
-    Element element = findElementByName(elementName);
+    Element element = findElementById(elementName);
     if (element == null) {
       return null;
     }
@@ -2120,7 +2134,7 @@ public class Element implements NiftyEvent, EffectManager.Notify {
   }
 
   public < T extends NiftyControl > T findNiftyControl(final String elementName, final Class < T > requestedControlClass) {
-    Element element = findElementByName(elementName);
+    Element element = findElementById(elementName);
     if (element == null) {
       return null;
     }
@@ -2202,6 +2216,70 @@ public class Element implements NiftyEvent, EffectManager.Notify {
    */
   public boolean isVisibleToMouseEvents() {
     return visibleToMouseEvents;
+  }
+
+  /**
+   * get current left padding.
+   * @return current left padding
+   */
+  public SizeValue getPaddingLeft() {
+    return layoutPart.getBoxConstraints().getPaddingLeft();
+  }
+
+  /**
+   * get current right padding.
+   * @return current right padding
+   */
+  public SizeValue getPaddingRight() {
+    return layoutPart.getBoxConstraints().getPaddingRight();
+  }
+
+  /**
+   * get current top padding.
+   * @return current top padding
+   */
+  public SizeValue getPaddingTop() {
+    return layoutPart.getBoxConstraints().getPaddingTop();
+  }
+
+  /**
+   * get current bottom padding.
+   * @return current bottom padding
+   */
+  public SizeValue getPaddingBottom() {
+    return layoutPart.getBoxConstraints().getPaddingBottom();
+  }
+
+  /**
+   * get current left margin.
+   * @return current left margin
+   */
+  public SizeValue getMarginLeft() {
+    return layoutPart.getBoxConstraints().getMarginLeft();
+  }
+
+  /**
+   * get current right margin.
+   * @return current right margin
+   */
+  public SizeValue getMarginRight() {
+    return layoutPart.getBoxConstraints().getMarginRight();
+  }
+
+  /**
+   * get current top margin.
+   * @return current top margin
+   */
+  public SizeValue getMarginTop() {
+    return layoutPart.getBoxConstraints().getMarginTop();
+  }
+
+  /**
+   * get current bottom margin.
+   * @return current bottom margin
+   */
+  public SizeValue getMarginBottom() {
+    return layoutPart.getBoxConstraints().getMarginBottom();
   }
 
   public void setPaddingLeft(final SizeValue paddingValue) {
@@ -2382,7 +2460,7 @@ public class Element implements NiftyEvent, EffectManager.Notify {
       Element el = elementIt.next();
       el.internalRemoveElementWithChilds();
     }
- 
+
     elementsRenderOrderSet.clear();
     elements.clear();
     elementsRenderOrder = elementsRenderOrderSet.toArray(new Element[0]);
