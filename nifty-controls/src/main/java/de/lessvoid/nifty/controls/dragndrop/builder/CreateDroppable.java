@@ -11,7 +11,7 @@ import de.lessvoid.nifty.loaderv2.types.ElementType;
 import de.lessvoid.nifty.screen.Screen;
 
 public class CreateDroppable extends ControlAttributes {
-  private DroppableDropFilter[] filters;
+  protected DroppableDropFilter[] filters;
 
   public CreateDroppable() {
     setAutoId(NiftyIdCreator.generate());

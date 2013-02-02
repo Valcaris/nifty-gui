@@ -42,7 +42,7 @@ public class ControlType extends ElementType {
     return getAttributes().get("name");
   }
 
-  @Override
+  //@Override
   void internalApplyControl(final Nifty nifty) {
     ControlDefinitionType controlDefinition = nifty.resolveControlDefinition(getType());
     if (controlDefinition == null) {

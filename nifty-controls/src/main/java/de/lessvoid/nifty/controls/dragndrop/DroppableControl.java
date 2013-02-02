@@ -18,10 +18,10 @@ import de.lessvoid.nifty.tools.SizeValue;
 import de.lessvoid.xml.xpp3.Attributes;
 
 public class DroppableControl extends AbstractController implements Droppable {
-  private Nifty nifty;
-  private List<DroppableDropFilter> filters = new CopyOnWriteArrayList<DroppableDropFilter>();
-  private Element droppableContent;
-  private DraggableControl draggable;
+  protected Nifty nifty;
+  protected List<DroppableDropFilter> filters = new CopyOnWriteArrayList<DroppableDropFilter>();
+  protected Element droppableContent;
+  protected DraggableControl draggable;
 
   @Override
   public void bind(

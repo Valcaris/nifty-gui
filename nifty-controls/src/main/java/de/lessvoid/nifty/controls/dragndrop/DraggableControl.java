@@ -19,24 +19,24 @@ import de.lessvoid.nifty.tools.SizeValue;
 import de.lessvoid.xml.xpp3.Attributes;
 
 public class DraggableControl extends AbstractController implements Draggable {
-  private static final String POPUP = "draggablePopup";
+  protected static final String POPUP = "draggablePopup";
   private static Logger logger = Logger.getLogger(DraggableControl.class.getName());
-  private Nifty nifty;
-  private Screen screen;
-  private Element draggable;
-  private Element originalParent;
-  private Element popup;
-  private Element handle;
-  private boolean revert;
-  private boolean dropEnabled;
-  private boolean dragged = false;  
-  private int originalPositionX;
-  private int originalPositionY;
-  private SizeValue originalConstraintX;
-  private SizeValue originalConstraintY;
-  private int dragStartX;
-  private int dragStartY;
-  private DroppableControl droppable;
+  protected Nifty nifty;
+  protected Screen screen;
+  protected Element draggable;
+  protected Element originalParent;
+  protected Element popup;
+  protected Element handle;
+  protected boolean revert;
+  protected boolean dropEnabled;
+  protected boolean dragged = false;
+  protected int originalPositionX;
+  protected int originalPositionY;
+  protected SizeValue originalConstraintX;
+  protected SizeValue originalConstraintY;
+  protected int dragStartX;
+  protected int dragStartY;
+  protected DroppableControl droppable;
 
   @Override
   public void bind(
@@ -135,7 +135,7 @@ public class DraggableControl extends AbstractController implements Draggable {
     dragged = false;
   }
 
-  private void moveDraggableToPopup() {
+  protected void moveDraggableToPopup() {
     popup = nifty.createPopup(POPUP);
     nifty.showPopup(screen, popup.getId(), null);
 
@@ -245,6 +245,11 @@ public class DraggableControl extends AbstractController implements Draggable {
 
   public DroppableControl getDroppable() {
     return droppable;
+  }
+
+  public Element getDraggable()
+  {
+    return draggable;
   }
 
   protected void setDroppable(final DroppableControl droppable) {

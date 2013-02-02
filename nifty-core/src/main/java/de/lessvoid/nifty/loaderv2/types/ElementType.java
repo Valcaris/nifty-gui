@@ -28,7 +28,7 @@ public class ElementType extends XmlBaseType {
   protected ElementRendererCreator elementRendererCreator;
   protected InteractType interact = new InteractType();
   protected EffectsType effects = new EffectsType();
-  protected List < ElementType > elements = new ArrayList < ElementType >(0);
+  public List < ElementType > elements = new ArrayList < ElementType >(0);
   protected LinkedList < Object > controllers = new LinkedList < Object >();
   protected Controller controller;
 
@@ -69,7 +69,7 @@ public class ElementType extends XmlBaseType {
     return new ElementType(this);
   }
 
-  void setElementRendererCreator(final ElementRendererCreator elementRendererCreatorParam) {
+  public void setElementRendererCreator(final ElementRendererCreator elementRendererCreatorParam) {
     elementRendererCreator = elementRendererCreatorParam;
   }
 
@@ -382,11 +382,11 @@ public class ElementType extends XmlBaseType {
    * is being transformed into the runtime element tree. during this process each interact
    * method is being resolved, tracing all controllers from top to bottom leading a list
    * of controller instances for each method.
-   * 
+   *
    * when we're creating elements dynamically then every element below in the hierachry is
    * resolved the same way but everything above us (the parent and parent.parent and so on)
    * is not being linked, which leads to controllers missing.
-   * 
+   *
    * this call will now travel up the hierachry and collect all controllers and add them
    * to the element we're currently processing.
    */
